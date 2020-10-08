@@ -1,0 +1,340 @@
+<template>
+
+  <v-container
+    id="user-profile"
+    fluid
+    tag="section"
+  >
+    <v-row justify="center">
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <v-card :loading="loading">
+          <v-card-title class="display-2 font-weight-light">
+            Редактирование профиля
+          </v-card-title>
+
+          <v-card-subtitle class="subtitle-1 font-weight-light">
+            Ваш профайл - ваша визитка в объявлениях
+          </v-card-subtitle>
+
+          <v-form v-if="user">
+            <v-container class="py-0">
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-radio-group
+                    row
+                    v-model="user.role"
+                  >
+                    <v-radio
+                      label="Частное лицо"
+                      value=1
+                      id="a"
+                    ></v-radio>
+                    <v-radio
+                      label="Риелтор"
+                      value="2"
+                      id="b"
+                    ></v-radio>
+                    <v-radio
+                      label="Юридическое лицо"
+                      value="3"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Имя"
+                    class="purple-input"
+                    v-model="user.first_name"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Фамилия"
+                    class="purple-input"
+                    v-model="user.last_name"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Телефон"
+                    class="purple-input"
+                    v-model="user.phone"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Электронная почта"
+                    class="purple-input"
+                    v-model="user.email"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-text-field
+                    label="Компания"
+                    disabled
+                    v-model="user.company"
+                  />
+                </v-col>
+
+                <v-col cols="12">
+                  <v-text-field
+                    label="Адрес"
+                    class="purple-input"
+                    v-model="user.address"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    label="Город"
+                    class="purple-input"
+                    v-model="user.city"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    label="Страна"
+                    class="purple-input"
+                    v-model="user.country"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="4"
+                >
+                  <v-text-field
+                    class="purple-input"
+                    label="Почтовый индекс"
+                    type="number"
+                    v-model="user.post_index"
+                  />
+                </v-col>
+
+                <v-col cols="12">
+                  <v-textarea
+                    class="purple-input"
+                    label="Обо мне"
+                    v-model="user.about_me"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-file-input
+                    ref="avatar"
+                    v-on:change="handleAvatarUpload()"
+                    v-model="avatar"
+                    truncate-length="25"
+                    label="Фото"
+                  ></v-file-input>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="12"
+                  v-if="user.avatar"
+                >
+                  <v-avatar
+                    color="primary"
+                    size="56"
+                  >
+                    <img
+                      :src="avatarUrl"
+                      :alt="user.first_name"
+                    >
+                  </v-avatar>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-checkbox
+                    label="Сменить пароль"
+                    v-model="user.want_cange_password"
+                  ></v-checkbox>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Прежний пароль"
+                    class="purple-input"
+                    v-model="user.password"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-text-field
+                    label="Новый пароль"
+                    v-model="user.new_password"
+                  />
+                </v-col>
+
+
+                <v-col
+                  cols="12"
+                  class="text-right"
+                >
+                  <v-btn
+                    color="primary"
+                    class="mr-0"
+                    v-on:click="handleProfileForm()"
+                  >
+                    Обновить профиль
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card>
+      </v-col>
+
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <v-card
+          elevation='0'
+          class="v-card-profile"
+          avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
+        >
+          <v-card-text class="text-center">
+            <h6 class="display-1 mb-1 grey--text">
+              CEO / CO-FOUNDER
+            </h6>
+
+            <h4 class="display-2 font-weight-light mb-3 black--text">
+              Alec Thompson
+            </h4>
+
+            <p class="font-weight-light grey--text">
+              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+            </p>
+
+            <v-btn
+              color="success"
+              rounded
+              class="mr-0"
+            >
+              Follow
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+
+import { required, email, numeric, minLength } from 'vuelidate/lib/validators'
+import { mapState, mapGetters, mapActions } from 'vuex'
+
+export default {
+  name: 'Profile',
+  data: () => ({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    password: '',
+    avatar: [],
+    firstNameErrorMessages: [],
+    lastNameErrorMessages: [],
+    phoneErrorMessages: [],
+    emailErrorMessages: [],
+    passwordErrorMessages: [],
+    showPassword: false,
+    avatarUrl: ''
+  }),
+  watch: {
+    email: function() {
+      this.emailErrorMessages = []
+      if (!this.$v.email.required) {
+        this.emailErrorMessages.push('Поле объязательно для заполнения')
+      }
+      if (!this.$v.email.email) {
+        this.emailErrorMessages.push('Поле должно содержать корректный адрес електронной почты')
+      }
+    },
+    password: function() {
+      this.passwordErrorMessages = []
+      if (!this.$v.password.required) {
+        this.passwordErrorMessages.push('Поле объязательно для заполнения')
+      }
+      if (!this.$v.password.minLength) {
+        this.passwordErrorMessages.push(`Поле должно состоять из ${this.$v.password.$params.minLength.min} символов`)
+      }
+    }
+  },
+  validations: {
+    firstName: { required, minLength: minLength(3) },
+    lastName: { required, minLength: minLength(2) },
+    phone: { required, numeric, minLength: minLength(10) },
+    email: { email, required },
+    password: { required, minLength: minLength(6) }
+  },
+  computed: {
+    ...mapState(['loading']),
+    ...mapState('profile', ['user'])
+  },
+  mounted () {
+    this.GET_PROFILE()
+    console.log(this.$config)
+    this.avatarUrl = this.$config.apiUrl + this.$config.staticPath + '/' + this.user.avatar
+  },
+  methods: {
+    ...mapActions('profile', ['GET_PROFILE']),
+    handleProfileForm() {
+      this.$store.dispatch('profile/SAVE_PROFILE')
+    },
+    handleAvatarUpload(e){
+      this.user.avatar = this.avatar
+    }
+  },
+  watch: {
+    ['user.role']: function() {
+      console.log(this)
+    }
+  }
+}
+</script>
