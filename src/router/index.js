@@ -21,7 +21,7 @@ const routes = [
     path: '/sign-up',
     name: 'Sign Up',
     meta: { layout: 'empty' },
-    component: () => import('../views/SignUp.vue')
+    component: () => import('../views/sign-up.vue')
   },
   {
     path: '/sign-out',
@@ -61,7 +61,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters['auth/isAuthenticated']) {
+    if (store.getters['isAuthenticated']) {
       next()
       return
     }

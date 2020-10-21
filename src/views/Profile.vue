@@ -272,21 +272,18 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Profile',
   data: () => ({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    avatar: [],
     firstNameErrorMessages: [],
     lastNameErrorMessages: [],
     phoneErrorMessages: [],
     emailErrorMessages: [],
     passwordErrorMessages: [],
+    //
     showPassword: false,
-    avatarUrl: ''
   }),
   watch: {
+    ['user.role']: function() {
+      console.log(this)
+    },
     email: function() {
       this.emailErrorMessages = []
       if (!this.$v.email.required) {
@@ -314,16 +311,38 @@ export default {
     password: { required, minLength: minLength(6) }
   },
   computed: {
+    // identity
+    email: {
+      get () {return this.$store.state.account.identity.email},
+      set (value) { this.$store.commit('account/updateEmail', value) }
+    },
+    password: {
+      get () { return this.$store.state.account.identity.password},
+      set (value) { this.$store.commit('account/updatePassword', value)}
+    },
+    // profile
+    firstName: {
+      get () { return this.$store.state.account.profile.firstName},
+      set (value) { this.$store.commit('account/updateFirstName', value)}
+    },
+    lastName: {
+      get () { return this.$store.state.account.profile.lastName},
+      set (value) { this.$store.commit('account/updateLastName', value)}
+    },
+    phone: {
+      get () { return this.$store.state.account.profile.phone},
+      set (value) { this.$store.commit('account/updatePhone', value)}
+    },
     ...mapState(['loading']),
-    ...mapState('profile', ['user'])
+    ...mapGetters('account', ['identity', 'profile'])
   },
   mounted () {
-    this.GET_PROFILE()
+    this.getAccountRequest()
     console.log(this.$config)
-    this.avatarUrl = this.$config.apiUrl + this.$config.staticPath + '/' + this.user.avatar
+    this.avatarUrl = this.$config.apiUrl + this.$config.staticPath + '/' + this.profile.avatar
   },
   methods: {
-    ...mapActions('profile', ['GET_PROFILE']),
+    ...mapActions('account', ['getAccountRequest']),
     handleProfileForm() {
       this.$store.dispatch('profile/SAVE_PROFILE')
     },
@@ -331,10 +350,5 @@ export default {
       this.user.avatar = this.avatar
     }
   },
-  watch: {
-    ['user.role']: function() {
-      console.log(this)
-    }
-  }
 }
 </script>

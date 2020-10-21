@@ -1,42 +1,36 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth  from './auth'
-import profile  from './profile'
-
+import signIn  from './sign-in'
+import signUp  from './sign-up'
+import account from './account'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     drawer: true,
-    loading: true
+    loading: true,
+    token: localStorage.getItem("auth-token") || "",
   },
 
   getters: {
-    LOADING: state => {
-      return state.loading
-    }
+    loadingFlag: state => state.loading,
+    isAuthenticated: state => !!state.token,
   },
 
   mutations: {
-    SET_DRAWER (state, payload) {
-      console.log('some set_drawer')
-      console.log(payload)
-      state.drawer = payload
-    },
-    SET_LOADING (state, payload) {
-      state.loading = payload
-    }
+    updateDrawerState: (state, payload) => state.drawer = payload,
+    updateLoadingStatus: (state, value) => state.loading = value,
+    updateAuthToken: (state, token) => state.token = token,
   },
 
   actions: {
-    LOADING (context, payload) {
-      context.commit('SET_LOADING', payload)
-    }
+    setLoadingStatus: (context, value) => context.commit('updateLoadingStatus', value),
   },
 
   modules: {
-    auth,
-    profile
+    signIn,
+    signUp,
+    account,
   }
 })

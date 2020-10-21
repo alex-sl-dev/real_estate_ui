@@ -5,7 +5,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import store from './store'
 import Axios from 'axios'
-import {API_URL, STATIC_PATH} from './config'
+import {API_HOST, STATIC_PATH} from './config'
 
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
@@ -19,10 +19,10 @@ if (token) {
 
 //Vue.prototype.$http.defaults.headers.common['Origin'] = 'frontend'
 
-Vue.prototype.$http.defaults.baseURL = API_URL;
+Vue.prototype.$http.defaults.baseURL = API_HOST;
 
 Vue.prototype.$config = {
-        apiUrl: API_URL,
+        apiUrl: API_HOST,
         staticPath: STATIC_PATH
 }
 
@@ -35,7 +35,7 @@ if (!app) {
     store,
     config: () => {
       return {
-        apiUrl: API_URL,
+        apiUrl: API_HOST,
         staticPath: STATIC_PATH
       }
     },

@@ -107,21 +107,17 @@ export default {
   components: {
   },
   computed: {
-    ...mapState(['drawer']),
-    isAuthenticated: function(){ return this.$store.getters['auth/isAuthenticated'] },
+    isAuthenticated: function(){ return this.$store.getters['isAuthenticated'] },
     drawer: {
       get () {
         return this.$store.state.drawer
       },
       set (val) {
-        this.$store.commit('SET_DRAWER', val)
+        this.$store.commit('updateDrawerState', val)
       },
     },
   },
   methods: {
-    ...mapMutations({
-      setDrawer: 'SET_DRAWER',
-    }),
   },
   data: () => ({
     title: 'ROOM ROOM',

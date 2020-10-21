@@ -48,12 +48,18 @@ import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   data: () => ({
-    email: '',
-    password: '',
     emailErrorMessages: [],
     passwordErrorMessages: []
   }),
   computed: {
+    email: {
+      get () {return this.$store.state.account.identity.email},
+      set (value) { this.$store.commit('account/updateEmail', value) }
+    },
+    password: {
+      get () { return this.$store.state.account.identity.password},
+      set (value) { this.$store.commit('account/updatePassword', value)}
+    },
   },
   watch: {
     email: function() {
@@ -85,22 +91,12 @@ export default {
         return
       }
 
-      const formData = {
-        email: this.email,
-        password: this.password
-      }
-
       try {
-        await this.$store.dispatch('auth/sign_in', formData)
-        this.$router.push('/dashboard')
+        await this.$store.dispatch('signIn/postSignInRequest')
+        await this.$router.push('/dashboard')
       } catch (e) {
-        if (e.message.includes('400') || e.message.includes('500')){
-          console.log('Error')
-        }
-
-        if (e.message.includes('401')){
-          this.passwordErrorMessages.push('Пара логин-пароль несовпадает')
-        }
+        console.log(e)
+        throw e
       }
 
     }

@@ -21,15 +21,19 @@ export default {
 
   }),
   created: function () {
-    //console.log(this.$http)
     Axios.interceptors.response.use(function (response) {
       return response
     }, function (error) {
-      //console.log(error.response)
+      if (error.toString().includes('Network Error')) {
+        store.dispatch('updateLoadingStatus', true, {root: true})
+        return Promise.reject(error)
+      }
+
       if (error.response.status === 401) {
         store.dispatch('auth/sign-out')
         router.push('/sign-in')
       }
+
       return Promise.reject(error)
     })
     /*
