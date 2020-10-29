@@ -1,24 +1,5 @@
-# ui
+# disclaimer
 
-## Project setup
-```
-yarn install
-```
+данный код не как не показывает полноту и глубину моих взглядов
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+это просто песочница для эксперементов
