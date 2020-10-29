@@ -8,25 +8,25 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    meta: { layout: 'main' },
+    meta: { layout: 'front' },
     component: () => import('../views/Home.vue')
   },
   {
     path: '/sign-in',
     name: 'Sign In',
-    meta: { layout: 'empty' },
+    meta: { layout: 'blank' },
     component: () => import('../views/SignIn.vue')
   },
   {
     path: '/sign-up',
     name: 'Sign Up',
-    meta: { layout: 'empty' },
+    meta: { layout: 'blank' },
     component: () => import('../views/sign-up.vue')
   },
   {
     path: '/sign-out',
     name: 'Sign Out',
-    meta: { layout: 'empty' },
+    meta: { layout: 'blank' },
     component: () => import('../views/SignOut.vue')
   },
   {
@@ -49,7 +49,7 @@ const routes = [
   {
     path: '*',
     name: 'NotFound',
-    meta: { layout: 'empty' },
+    meta: { layout: 'blank' },
     component: () => import('../views/NotFound.vue')
   }
 ]

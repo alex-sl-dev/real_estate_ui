@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import MainLayout from '@/layouts/MainLayout'
-import EmptyLayout from '@/layouts/EmptyLayout'
-import AccountLayout from '@/layouts/AccountLayout'
+import FrontLayout from '@/layouts/front-layout'
+import BlankLayout from '@/layouts/blank-layout'
+import AccountLayout from '@/layouts/account-layout'
 import Axios from 'axios'
 import router from './router'
 import store from './store'
@@ -15,7 +15,7 @@ import store from './store'
 export default {
   name: 'App',
   components: {
-    MainLayout, EmptyLayout, AccountLayout
+    FrontLayout, BlankLayout, AccountLayout
   },
   data: () => ({
 
@@ -25,13 +25,13 @@ export default {
       return response
     }, function (error) {
       if (error.toString().includes('Network Error')) {
-        store.dispatch('updateLoadingStatus', true, {root: true})
+        //store.dispatch('updateLoadingStatus', true, {root: true})
         return Promise.reject(error)
       }
 
       if (error.response.status === 401) {
         store.dispatch('auth/sign-out')
-        router.push('/sign-in')
+        router.push('/')
       }
 
       return Promise.reject(error)
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     layout: function(){
-      return (this.$route.meta.layout || 'main') + '-layout'
+      return (this.$route.meta.layout || 'front') + '-layout'
     }
   }
 }

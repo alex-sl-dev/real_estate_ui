@@ -26,11 +26,6 @@ export default {
         throw e
       }
     },
-    async postSignOutRequest(context) {
-      context.commit('setAuthToken', "", {root: true})
-      localStorage.removeItem('auth-token')
-      delete axios.defaults.headers.common['Authorization']
-    }
   },
   mutations: {
     // todo rename

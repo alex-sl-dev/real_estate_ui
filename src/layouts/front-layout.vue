@@ -43,7 +43,7 @@
         <v-btn
           text
           depressed
-          v-on:click="sign_out"
+          v-on:click="menuItemClickHandler"
           v-for="item in userMenuItems"
           :key="item.title"
           :id="item.id"
@@ -64,12 +64,14 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'main-layout',
   components: {
   },
   computed : {
-    isAuthenticated: function(){ return this.$store.getters['auth/isAuthenticated'] }
+    ...mapGetters(['isAuthenticated'])
   },
   data: () => ({
     appTitle: "ROOM ROOM",
@@ -89,9 +91,9 @@ export default {
     ]
   }),
   methods: {
-    async sign_out (event) {
+    async menuItemClickHandler (event) {
       if (event.target.id === 'signOutBtn') {
-        await this.$store.dispatch('auth/sign_out')
+        await this.$store.dispatch('account/postAccountSignOutRequest')
       }
     }
   }

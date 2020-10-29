@@ -19,7 +19,7 @@
             Ваш профайл - ваша визитка в объявлениях
           </v-card-subtitle>
 
-          <v-form v-if="user">
+          <v-form v-if="identity">
             <v-container class="py-0">
               <v-row>
                 <v-col
@@ -28,7 +28,7 @@
                 >
                   <v-radio-group
                     row
-                    v-model="user.role"
+                    v-model="role"
                   >
                     <v-radio
                       label="Частное лицо"
@@ -54,7 +54,7 @@
                   <v-text-field
                     label="Имя"
                     class="purple-input"
-                    v-model="user.first_name"
+                    v-model="first_name"
                   />
                 </v-col>
 
@@ -65,7 +65,7 @@
                   <v-text-field
                     label="Фамилия"
                     class="purple-input"
-                    v-model="user.last_name"
+                    v-model="last_name"
                   />
                 </v-col>
 
@@ -76,7 +76,7 @@
                   <v-text-field
                     label="Телефон"
                     class="purple-input"
-                    v-model="user.phone"
+                    v-model="phone"
                   />
                 </v-col>
 
@@ -87,7 +87,7 @@
                   <v-text-field
                     label="Электронная почта"
                     class="purple-input"
-                    v-model="user.email"
+                    v-model="email"
                   />
                 </v-col>
 
@@ -98,7 +98,7 @@
                   <v-text-field
                     label="Компания"
                     disabled
-                    v-model="user.company"
+                    v-model="company"
                   />
                 </v-col>
 
@@ -106,7 +106,7 @@
                   <v-text-field
                     label="Адрес"
                     class="purple-input"
-                    v-model="user.address"
+                    v-model="address"
                   />
                 </v-col>
 
@@ -117,7 +117,7 @@
                   <v-text-field
                     label="Город"
                     class="purple-input"
-                    v-model="user.city"
+                    v-model="city"
                   />
                 </v-col>
 
@@ -128,7 +128,7 @@
                   <v-text-field
                     label="Страна"
                     class="purple-input"
-                    v-model="user.country"
+                    v-model="country"
                   />
                 </v-col>
 
@@ -140,7 +140,7 @@
                     class="purple-input"
                     label="Почтовый индекс"
                     type="number"
-                    v-model="user.post_index"
+                    v-model="post_index"
                   />
                 </v-col>
 
@@ -148,7 +148,7 @@
                   <v-textarea
                     class="purple-input"
                     label="Обо мне"
-                    v-model="user.about_me"
+                    v-model="about_me"
                   />
                 </v-col>
 
@@ -168,7 +168,7 @@
                 <v-col
                   cols="12"
                   md="12"
-                  v-if="user.avatar"
+                  v-if="avatar"
                 >
                   <v-avatar
                     color="primary"
@@ -176,7 +176,7 @@
                   >
                     <img
                       :src="avatarUrl"
-                      :alt="user.first_name"
+                      :alt="firstName"
                     >
                   </v-avatar>
                 </v-col>
@@ -184,7 +184,7 @@
                 <v-col cols="12">
                   <v-checkbox
                     label="Сменить пароль"
-                    v-model="user.want_cange_password"
+                    v-model="want_cange_password"
                   ></v-checkbox>
                 </v-col>
 
@@ -195,7 +195,7 @@
                   <v-text-field
                     label="Прежний пароль"
                     class="purple-input"
-                    v-model="user.password"
+                    v-model="password"
                   />
                 </v-col>
 
@@ -205,7 +205,7 @@
                 >
                   <v-text-field
                     label="Новый пароль"
-                    v-model="user.new_password"
+                    v-model="newPassword"
                   />
                 </v-col>
 
@@ -311,6 +311,7 @@ export default {
     password: { required, minLength: minLength(6) }
   },
   computed: {
+    ...mapGetters('account', ['identity', 'profile']),
     // identity
     email: {
       get () {return this.$store.state.account.identity.email},

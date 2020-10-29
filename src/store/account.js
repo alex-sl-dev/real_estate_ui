@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Axios from 'axios'
 import {API_HOST} from '@/config'
+import axios from "axios";
 
 export default {
   namespaced: true,
@@ -42,6 +43,20 @@ export default {
   },
 
   actions: {
+    async postAccountSignOutRequest (context) {
+      try {
+        await context.dispatch('setLoadingStatus', true, {root: true})
+        let {data} = await Axios.get(`${API_HOST}/account/sign-out`)
+        context.commit('updateIdentity', {})
+        context.commit('updateProfile', {})
+        context.commit('setAuthToken', "", {root: true})
+        localStorage.removeItem('auth-token')
+        delete axios.defaults.headers.common['Authorization']
+        await context.dispatch('setLoadingStatus', false, {root: true})
+      } catch (e) {
+        throw e
+      }
+    },
     async getAccountRequest (context) {
       try {
         await context.dispatch('setLoadingStatus', true, {root: true})
